@@ -50,42 +50,49 @@ session_start();
 
             <div class="auth-credentials m-b-xxl">
                 <form action="registration_post.php" method="POST">
+
                     <label for="signUpUsername" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="signUpUsername" aria-describedby="signUpUsername" placeholder="Enter Name" name="name" value="<?=(isset($_SESSION['old_name']))?$_SESSION['old_name']:''?>">
-                    <?php if(isset($_SESSION['name_error'])):
+
+                    <input type="text" class="form-control" id="signUpUsername" aria-describedby="signUpUsername" placeholder="Enter Name" name="name" value="<?= (isset($_SESSION['old_name'])) ? $_SESSION['old_name'] : '' ?>">
+
+                        <?php if (isset($_SESSION['name_error'])) :
                         ?>
-                        <p class="text-danger"><?=$_SESSION['name_error'];?></p>
-                        <?php 
+                            <p class="text-danger"><?= $_SESSION['name_error']; ?></p>
+                        <?php
                         // unset($_SESSION['name_error']);
-                    endif; ?>
+                        endif; ?>
+
 
                     <label for="signUpEmail" class="form-label">Email address</label>
-                    <input type="email" class="form-control" placeholder="email_address" name="email_address" value="<?=(isset($_SESSION['old_email']))?$_SESSION['old_email']:''?>">
-                    <?php if(isset($_SESSION['email_error'])):
+
+                    <input type="email" class="form-control" placeholder="email_address" name="email_address" value="<?= (isset($_SESSION['old_email'])) ? $_SESSION['old_email'] : '' ?>">
+                        <?php if (isset($_SESSION['email_error'])) :
                         ?>
-                        <p class="text-danger"><?=$_SESSION['email_error'];?></p>
-                        <?php 
-                        // unset($_SESSION['email_error']);
-                    endif; ?>
+                            <p class="text-danger"><?= $_SESSION['email_error']; ?></p>
+                        <?php elseif(isset($_SESSION['duplicate_email_error'])):?>
+                        <p class="text-danger"><?= $_SESSION['duplicate_email_error']; ?></p>
+                        <?php
+                        endif; ?>
+                        
 
                     <label for="signUpPassword" class="form-label">Password</label>
                     <input type="password" class="form-control" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" name="password">
                     <!-- <div id="emailHelp" class="form-text">Password must be minimum 8 characters length*</div> -->
-                    <?php if(isset($_SESSION['password_error'])):
-                        ?>
-                        <p class="text-danger"><?=$_SESSION['password_error'];?></p>
-                        <?php 
-                        // unset($_SESSION['password_error']);
+                    <?php if (isset($_SESSION['password_error'])) :
+                    ?>
+                        <p class="text-danger"><?= $_SESSION['password_error']; ?></p>
+                    <?php
+                    // unset($_SESSION['password_error']);
                     endif; ?>
 
                     <label for="signUpPassword" class="form-label">Confirm Password</label>
                     <input type="password" class="form-control" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" name="confirm_password">
-                    <?php if(isset($_SESSION['confirm_password_error'])):
-                        ?>
-                        <p class="text-danger"><?=$_SESSION['confirm_password_error'];?></p>
-                        <?php 
-                        // unset($_SESSION['confirm_password_error']);
-                    endif;?>
+                    <?php if (isset($_SESSION['confirm_password_error'])) :
+                    ?>
+                        <p class="text-danger"><?= $_SESSION['confirm_password_error']; ?></p>
+                    <?php
+                    // unset($_SESSION['confirm_password_error']);
+                    endif; ?>
             </div>
 
             <div class="auth-submit">
