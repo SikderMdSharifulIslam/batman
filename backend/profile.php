@@ -6,6 +6,12 @@ if (!isset($_SESSION['id'])) {
 $db_connect = mysqli_connect('localhost', 'root', '', 'batman');
 $user_select_query = "SELECT id, name, email_address FROM users";
 $user_data_db = mysqli_query($db_connect, $user_select_query);
+
+$id=$_SESSION['id'];
+$select_user = "SELECT * FROM users WHERE id=$id";
+$select_user_result = mysqli_query($db_connect, $select_user);
+$after_assoc = mysqli_fetch_assoc($select_user_result);
+
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +61,7 @@ $user_data_db = mysqli_query($db_connect, $user_select_query);
                 <a href="index.html" class="logo-icon"><span class="logo-text">Neptune</span></a>
                 <div class="sidebar-user-switcher user-activity-online">
                     <a href="#">
-                        <img src="https://png.pngitem.com/pimgs/s/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png">
+                        <img src="../uploads/profile/<?=$after_assoc['profile_photo']?>">
                         <span class="activity-indicator"></span>
                         <span class="user-info-text"><?= $_SESSION['s_name'] ?><br><span class="user-state-info"><?= $_SESSION['s_email_address'] ?></span></span>
                     </a>
@@ -176,15 +182,56 @@ $user_data_db = mysqli_query($db_connect, $user_select_query);
                                 <div class="card-body">
                                     <div class="example-container">
                                         <div class="example-content">
-                                            <form action="profile_post.php" method="POST">
+                                            <form action="profile_photo_post.php" method="POST" enctype="multipart/form-data">
                                                 <label class="form-label">Upload Your Photo</label>
-                                                <input type="file" class="form-control">
+                                                <input onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" name="profile_photo" type="file" class="form-control">
+                                                <img width="200" id="blah" src="" alt="">
+                                                <br>
+                                                <?php if(isset($_SESSION['extension'])):?>
+                                                    <div class="alert alert-danger">
+                                                        <?=$_SESSION['extension']?>
+                                                    </div>
+                                                <?php endif; unset($_SESSION['extension'])?>
+
+                                                <?php if(isset($_SESSION['size'])):?>
+                                                    <div class="alert alert-danger">
+                                                        <?=$_SESSION['size']?>
+                                                    </div>
+                                                <?php endif; unset($_SESSION['size'])?>
+                                                
+                                                <?php if(isset($_SESSION['photo'])):?>
+                                                    <div class="alert alert-primary">
+                                                        <?=$_SESSION['photo']?>
+                                                    </div>
+                                                <?php endif; unset($_SESSION['photo'])?>
+
                                                 <button name="upload_photo" type="submit" class="btn btn-success mt-2">Upload Your Photo</button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-lg-6">
+                                <div class="card-body">
+                                    <div class="example-container">
+                                        <div class="example-content">
+                                            <form action="pass_post.php" method="POST">
+                                                <label class="form-label">Password</label>
+                                                <input type="hidden" class="form-control" value="<?=$_SESSION['id']?>" name="id">
+                                                <input type="password" class="form-control" value="" name="password">
+                                                <?php if(isset($_SESSION['pass'])):?>
+                                                    <div class="alert alert-success">
+                                                        <?=$_SESSION['pass']?>
+                                                    </div>
+                                                <?php endif; unset($_SESSION['pass'])?>
+                                                <button type="submit" class="btn btn-success mt-2" name="change_name">Change Password</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
